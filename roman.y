@@ -1,6 +1,8 @@
 %{
-int yylex();
-void yyerror(char *s);
+# include <stdio.h>
+# include <stdlib.h>
+  int yylex();
+  void yyerror(char *s);
 %}
 /* declare tokens SN: it is a bison convention
 to give uppercase names to tokens but it is not required */
@@ -20,23 +22,27 @@ to give uppercase names to tokens but it is not required */
 %token EOL
 %%
 roman_nums: /* nothing */
-| roman_nums thousands EOL {printf("= %d\n>", $2); }
+| roman_nums thousands EOL { printf("= %d\n>", $2); }
 ;
 thousands: hundreds
-|
+| hundreds M thousands { $$ = $1 + 1000; }
 ;
 hundreds: tenths
-| 
+| tenths C hundreds  { $$ = $1 + 100; }
+| tenths D hundreds  { $$ = $1 + 500; }
+| tenths CD hundreds { $$ = $1 + 400; }
+| tenths CM 
 ;
 tenths: units
-|units X tenths  { $$ = $$ + 10; }
-|units XL tenths { $$ = $$ + 40; }
-|units XC tenths { $$ = $$ + 90; }
+| units X tenths  { $$ = $1 + 10; }
+| units L tenths  { $$ = $1 + 50; }
+| units XL tenths { $$ = $1 + 40; }
+| units XC tenths { $$ = $1 + 90; }
 ;
 units: /* nothing */
-| I units  { $$ = $$ + 1; }
-| IV units { $$ = $$ + 4; }
-| IX units { $$ = $$ + 9; }
+| I units  { $$ = $1 + 1; }
+| IV units { $$ = $1 + 4; }
+| IX units { $$ = $1 + 9; }
 ;
 %%
 int main()
