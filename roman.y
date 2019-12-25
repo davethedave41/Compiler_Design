@@ -19,7 +19,7 @@ expr: NUMS
 %%
 int main()
 {
-    yyparse();
+    yyparse(); 
     return 0;
 }
 
