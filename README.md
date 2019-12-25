@@ -1,2 +1,3 @@
-# CS3071
-JWaldroni is a real one.
+# Compiler Design
+
+Compiler Design module assignments.
